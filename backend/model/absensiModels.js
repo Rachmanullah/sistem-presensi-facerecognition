@@ -156,6 +156,21 @@ const updateAbsensi = async (id, data) => {
     }
 }
 
+const updateStatusAbsensi = async (id, data) => {
+    try {
+        const absensi = await prisma.absensi.update({
+            where: { id },
+            data: {
+                status: data.status,
+            },
+        });
+        return absensi;
+    } catch (error) {
+        console.error('Error updating data:', error);
+        throw error;
+    }
+}
+
 const destroyAbsensi = async (id) => {
     try {
         const absensi = await prisma.absensi.delete({
@@ -176,4 +191,5 @@ module.exports = {
     createAbsensi,
     updateAbsensi,
     destroyAbsensi,
+    updateStatusAbsensi
 }

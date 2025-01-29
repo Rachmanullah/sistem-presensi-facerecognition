@@ -4,6 +4,8 @@ const mahasiswaController = require('./mahasiswaController');
 const laboratoriumController = require('./laboratoriumController');
 const praktikumController = require('./praktikumController');
 const pesertaController = require('./pesertaController');
+const absensiController = require('./absensiController');
+const recordAbsensiController = require('./recordAbsensiController');
 
 module.exports = {
     userController,
@@ -12,4 +14,6 @@ module.exports = {
     laboratoriumController,
     praktikumController,
     pesertaController,
+    absensiController,
+    recordAbsensiController,
 };

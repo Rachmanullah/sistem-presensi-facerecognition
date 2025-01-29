@@ -4,6 +4,8 @@ const thAkademikService = require('./thAkademikService');
 const laboratoriumService = require('./laboratoriumService');
 const praktikumService = require('./praktikumService');
 const pesertaService = require('./pesertaService');
+const absensiService = require('./absensiService');
+const recordAbsensiService = require('./recordAbsensiService');
 
 module.exports = {
     userService,
@@ -12,4 +14,6 @@ module.exports = {
     laboratoriumService,
     praktikumService,
     pesertaService,
+    absensiService,
+    recordAbsensiService
 }
