@@ -5,7 +5,7 @@ const FindPesertaPraktikumByID = async (id) => {
     try {
         const result = await prisma.peserta_Praktikum.findUnique({
             where: {
-                id
+                id: id
             }
         });
         return result;
@@ -19,6 +19,22 @@ const FindPesertaPraktikumByPraktikumID = async (praktikumID) => {
         const result = await prisma.peserta_Praktikum.findMany({
             where: {
                 praktikum_id: praktikumID
+            },
+            include: {
+                Mahasiswa: true
+            }
+        });
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const FindPesertaPraktikumByMhsID = async (mhsID) => {
+    try {
+        const result = await prisma.peserta_Praktikum.findMany({
+            where: {
+                mahasiswa_id: mhsID
             },
             include: {
                 Mahasiswa: true
@@ -127,7 +143,7 @@ const destroyPesertaPraktikum = async (id) => {
     try {
         const result = await prisma.peserta_Praktikum.delete({
             where: {
-                id
+                id: id
             }
         });
 
@@ -136,6 +152,21 @@ const destroyPesertaPraktikum = async (id) => {
         throw error;
     }
 }
+
+const destroyPesertaPraktikumByMhsID = async (mhsID) => {
+    try {
+        const result = await prisma.peserta_Praktikum.deleteMany({
+            where: {
+                mahasiswa_id: mhsID
+            }
+        });
+
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
 
 const destroyPesertaPraktikumByPraktikumID = async (praktikumID) => {
     try {
@@ -160,4 +191,6 @@ module.exports = {
     updatePesertaPraktikum,
     destroyPesertaPraktikum,
     destroyPesertaPraktikumByPraktikumID,
+    FindPesertaPraktikumByMhsID,
+    destroyPesertaPraktikumByMhsID
 }

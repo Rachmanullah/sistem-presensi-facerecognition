@@ -1,4 +1,4 @@
-const { mahasiswaModels } = require('../model');
+const { mahasiswaModels, pesertaModels } = require('../model');
 const { mahasiswaValidation, mahasiswaValidationArray } = require('../utils/validationHelper');
 
 const findAllMhs = async () => {
@@ -76,6 +76,8 @@ const updateMhs = async (mhsID, data) => {
 
 const deleteMhs = async (mhsID) => {
     try {
+        const checkPeserta = await pesertaModels.FindPesertaPraktikumByMhsID(mhsID);
+        if (checkPeserta) await pesertaModels.destroyPesertaPraktikumByMhsID(mhsID);
         return await mahasiswaModels.destroyMhs(mhsID);
     } catch (error) {
         throw new Error('Error deleting data: ' + error.message);

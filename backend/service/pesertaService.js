@@ -33,7 +33,7 @@ const createPeserta = async (data) => {
                 // Jika mahasiswa belum ada, buat data mahasiswa baru
                 if (!mahasiswa) {
                     await mahasiswaValidation.validate(item, { abortEarly: false });
-                    mahasiswa = await createMhs({
+                    mahasiswa = await mahasiswaModels.createMhs({
                         nim: nimMHS,
                         nama: item.nama || "Tanpa Nama",
                     });
@@ -74,7 +74,7 @@ const createPeserta = async (data) => {
 
             if (!mahasiswa) {
                 await mahasiswaValidation.validate(data, { abortEarly: false });
-                mahasiswa = await createMhs({
+                mahasiswa = await mahasiswaModels.createMhs({
                     nim: nimMHS,
                     nama: data.nama || "Tanpa Nama",
                 });
@@ -101,7 +101,7 @@ const createPeserta = async (data) => {
                 kelas: data.kelas,
             };
 
-            const result = await createPesertaPraktikum(newPeserta);
+            const result = await pesertaModels.createPesertaPraktikum(newPeserta);
             return result;
         }
     } catch (error) {

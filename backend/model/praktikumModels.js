@@ -24,6 +24,17 @@ const FindPraktikumByID = async (id) => {
     }
 }
 
+const FindPraktikumByLaboratoriumID = async (labID) => {
+    try {
+        const data = await prisma.praktikum.findMany({
+            where: { lab_id: labID },
+        });
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 const countPraktikum = async () => {
     try {
         const count = await prisma.praktikum.count();
@@ -76,11 +87,24 @@ const destroyPraktikum = async (id) => {
     }
 }
 
+const destroyPraktikumByLabID = async (labID) => {
+    try {
+        const deletedPraktikum = await prisma.praktikum.deleteMany({
+            where: { lab_id: labID },
+        });
+        return deletedPraktikum;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     findAllPraktikum,
     FindPraktikumByID,
+    FindPraktikumByLaboratoriumID,
     countPraktikum,
     createPraktikum,
     updatePraktikum,
     destroyPraktikum,
+    destroyPraktikumByLabID
 }
