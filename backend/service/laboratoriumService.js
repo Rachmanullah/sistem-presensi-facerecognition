@@ -1,3 +1,4 @@
+const praktikumService = require('./praktikumService');
 const { laboratoriumModels } = require('../model');
 const { laboratoriumValidation } = require('../utils/validationHelper');
 
@@ -45,6 +46,8 @@ const updateLaboratorium = async (labID, laboratoriumData) => {
 
 const deleteLaboratorium = async (labID) => {
     try {
+        const checkPraktikum = await praktikumService.findPraktikumByLaboratoriumID(labID);
+        if (checkPraktikum) await praktikumService.deletePraktikumByLabID(labID);
         return await laboratoriumModels.destroyLaboratorium(labID);
     } catch (error) {
         throw new Error('Error deleting data: ' + error.message);

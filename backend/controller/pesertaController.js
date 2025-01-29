@@ -27,7 +27,7 @@ exports.handleGetPesertaPraktikumByPraktikumID = async (req, res) => {
             praktikum: dataPraktikum,
             peserta: dataPeserta
         }
-        return responseHandler.success(data, 'Get Data Success', 200);
+        return responseHandler.success(res, data, 'Get Data Success', 200);
     } catch (error) {
         console.error('Error:', error.message);
         return responseHandler.error(res, 'Internal Server Error', 500);
@@ -80,10 +80,10 @@ exports.handlerUpdatePeserta = async (req, res) => {
 
 exports.handlerDeletePeserta = async (req, res) => {
     try {
-        const id = parseInt(req.params.id);
-        const pesertaData = await pesertaService.findPesertaByID(id);
+        const pesertaID = parseInt(req.params.pesertaID);
+        const pesertaData = await pesertaService.findPesertaByID(pesertaID);
         if (!pesertaData) return responseHandler.error(res, 'Data Not Found', 404);
-        await pesertaService.deletePeserta(id);
+        await pesertaService.deletePeserta(pesertaID);
         return responseHandler.success(res, null, 'Data deleted successfully', 200);
     } catch (error) {
         console.error('Error:', error.message);

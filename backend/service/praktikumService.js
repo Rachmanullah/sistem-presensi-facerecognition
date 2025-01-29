@@ -17,6 +17,14 @@ const findPraktikumByID = async (praktikumID) => {
     }
 }
 
+const findPraktikumByLaboratoriumID = async (labID) => {
+    try {
+        return await praktikumModels.FindPraktikumByLaboratoriumID(labID);
+    } catch (error) {
+        throw new Error('Error fetching data: ' + error.message);
+    }
+}
+
 const countPraktikum = async () => {
     try {
         return await praktikumModels.countPraktikum();
@@ -52,11 +60,23 @@ const deletePraktikum = async (praktikumID) => {
     }
 }
 
+const deletePraktikumByLabID = async (labID) => {
+    try {
+        const praktikumData = await praktikumModels.FindPraktikumByLaboratoriumID(labID);
+        await pesertaModels.destroyPesertaPraktikumByPraktikumID(praktikumData.id);
+        return await praktikumModels.destroyPraktikumByLabID(labID);
+    } catch (error) {
+        throw new Error('Error deleting data: ' + error.message);
+    }
+}
+
 module.exports = {
     findAllPraktikum,
     findPraktikumByID,
     createPraktikum,
     updatePraktikum,
     deletePraktikum,
-    countPraktikum
+    countPraktikum,
+    findPraktikumByLaboratoriumID,
+    deletePraktikumByLabID
 }
