@@ -3,8 +3,8 @@ import axios from 'axios';
 
 // Konfigurasi dasar Axios
 const apiClient = axios.create({
-    // baseURL: 'http://localhost:3000/api/', // Ganti dengan URL backend Anda
-    baseURL: 'https://face-recognition-lyart.vercel.app/api/', // Ganti dengan URL backend Anda
+    baseURL: 'http://localhost:2000/api/', // Ganti dengan URL backend Anda
+    // baseURL: 'https://face-recognition-lyart.vercel.app/api/', // Ganti dengan URL backend Anda
     headers: {
         'Content-Type': 'application/json',
     },
