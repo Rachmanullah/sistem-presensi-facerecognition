@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  username String
+  password String
+  token    String?
+  role     String?
+}
+
+model Laboratorium {
+  id        Int         @id @default(autoincrement())
+  nama      String
+  praktikum Praktikum[]
+}
+
+model Praktikum {
+  id                Int                 @id @default(autoincrement())
+  nama              String
+  lab_id            Int
+  periode           String //ganjil & genap
+  Laboratorium      Laboratorium?       @relation(fields: [lab_id], references: [id])
+  Absensi           Absensi[]
+  Peserta_Praktikum Peserta_Praktikum[]
+}
+
+model Mahasiswa {
+  id                Int                 @id @default(autoincrement())
+  nim               Int                 @unique
+  email             String?             @unique
+  nama              String?
+  record_Abensi     Record_Absensi[]
+  Peserta_Praktikum Peserta_Praktikum[]
+  imageFace         imageFace[]
+}
+
+model tahun_akademik {
+  id                Int                 @id @default(autoincrement())
+  tahun             String
+  status            String?
+  Absensi           Absensi[]
+  Peserta_Praktikum Peserta_Praktikum[]
+}
+
+model Absensi {
+  id             Int              @id @default(autoincrement())
+  praktikum_id   Int
+  Praktikum      Praktikum?       @relation(fields: [praktikum_id], references: [id])
+  kelas          String?
+  tanggal        DateTime?
+  pertemuan      Int
+  start_time     DateTime?
+  id_thAkademik  Int
+  tahun_akademik tahun_akademik?  @relation(fields: [id_thAkademik], references: [id])
+  durasi         Int?
+  end_time       DateTime?
+  status         String
+  record_Abensi  Record_Absensi[]
+}
+
+model Record_Absensi {
+  id           Int        @id @default(autoincrement())
+  absensi_id   Int
+  Absensi      Absensi?   @relation(fields: [absensi_id], references: [id])
+  mahasiswa_id Int
+  Mahasiswa    Mahasiswa? @relation(fields: [mahasiswa_id], references: [id])
+  status       String?
+}
+
+model Peserta_Praktikum {
+  id             Int             @id @default(autoincrement())
+  praktikum_id   Int
+  Praktikum      Praktikum?      @relation(fields: [praktikum_id], references: [id])
+  mahasiswa_id   Int
+  Mahasiswa      Mahasiswa?      @relation(fields: [mahasiswa_id], references: [id])
+  id_thAkademik  Int
+  tahun_akademik tahun_akademik? @relation(fields: [id_thAkademik], references: [id])
+  kelas          String
+}
+
+model imageFace {
+  id           Int        @id @default(autoincrement())
+  mahasiswa_id Int
+  Mahasiswa    Mahasiswa? @relation(fields: [mahasiswa_id], references: [id])
+  image_url    String?
+  image_face   String?
+  timestamp    DateTime?
+}
