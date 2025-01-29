@@ -62,7 +62,7 @@ exports.handleUpdateAbsensi = async (req, res) => {
         const data = req.body;
 
         const updatedPresensi = await absensiService.updateAbsensi(dataID, data);
-        return responseHandler.success(res, updatedPresensi, 'updated successfully', 200);
+        return responseHandler.success(res, updatedPresensi, 'updated absensi successfully', 200);
     } catch (error) {
         if (error.name === 'ValidationError') {
             const validationErrors = {};
