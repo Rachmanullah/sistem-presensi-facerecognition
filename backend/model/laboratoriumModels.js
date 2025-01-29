@@ -61,11 +61,7 @@ const updateLaboratorium = async (id, data) => {
 const destroyLaboratorium = async (id) => {
     try {
         const lab = await prisma.laboratorium.delete({
-<<<<<<< HEAD
             where: { id: id }
-=======
-            where: { id }
->>>>>>> frontend
         });
         return lab;
     } catch (error) {

@@ -58,9 +58,9 @@ exports.handlerUpdatePeserta = async (req, res) => {
     try {
         const pesertaID = parseInt(req.params.pesertaID);
         const data = req.body;
-        const pesertaData = await pesertaService.findPesertaByID(id);
+        const pesertaData = await pesertaService.findPesertaByID(pesertaID);
         if (!pesertaData) return responseHandler.error(res, 'Data Not Found', 404);
-        const updatedData = await pesertaService.updatePeserta(id, data);
+        const updatedData = await pesertaService.updatePeserta(pesertaID, data);
         return responseHandler.success(res, updatedData, 'Data updated successfully', 200);
     } catch (error) {
         if (error.name === 'ValidationError') {
