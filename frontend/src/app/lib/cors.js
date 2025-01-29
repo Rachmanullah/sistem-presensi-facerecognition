@@ -3,7 +3,7 @@ import Cors from 'cors';
 const cors = Cors({
     origin: (origin, callback) => {
         const allowedOrigins = [
-            'http://localhost:3000', // URL localhost
+            'http://localhost:2000', // URL localhost
             process.env.BASE_URL_NGROK, // URL Ngrok
         ];
         if (!origin || allowedOrigins.includes(origin)) {
