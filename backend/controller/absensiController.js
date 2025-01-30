@@ -75,7 +75,6 @@ exports.handleUpdateAbsensi = async (req, res) => {
         } else {
             console.error('Unexpected Error:', error);
             return responseHandler.error(res, 'Internal Server Error', 500);
-            return responseHandler.error(res, error.message, 500);
         }
     }
 }
