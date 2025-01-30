@@ -74,7 +74,6 @@ exports.handleUpdateAbsensi = async (req, res) => {
             return responseHandler.error(res, validationErrors, 400);
         } else {
             console.error('Unexpected Error:', error);
-            return responseHandler.error(res, error.message, 500);
         }
     }
 }
