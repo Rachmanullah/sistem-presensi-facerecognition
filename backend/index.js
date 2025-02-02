@@ -24,7 +24,7 @@ app.use(cors({
 
 // Routes
 app.use('/api', routes);
-app.use("/images", express.static(path.join(__dirname, "public/images")));
+app.use("/public/imagesFace", express.static(path.join(__dirname, "public/imagesFace")));
 app.get('/', function (req, res) {
     res.send('Hello from Express API!');
 })

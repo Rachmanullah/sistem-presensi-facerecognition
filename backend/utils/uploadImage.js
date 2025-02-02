@@ -2,7 +2,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-const uploadDir = path.join(__dirname, "../public/images");
+const uploadDir = path.join(__dirname, "../public/imagesFace");
 
 // Cek apakah direktori ada, jika tidak buat
 if (!fs.existsSync(uploadDir)) {
