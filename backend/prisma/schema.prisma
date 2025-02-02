@@ -97,5 +97,6 @@ model imageFace {
   Mahasiswa    Mahasiswa? @relation(fields: [mahasiswa_id], references: [id])
   image_url    String?
   image_face   String?
+  embedding    Json?
   timestamp    DateTime?
 }
