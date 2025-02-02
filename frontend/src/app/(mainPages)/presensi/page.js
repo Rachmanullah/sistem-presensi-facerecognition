@@ -119,7 +119,7 @@ export default function PresensiPage() {
             const response = await apiClient.post("/faceRecognition/predict", payload);
             console.log("Response backend:", response.data);
 
-            if (response.data.match === true) {
+            if (response.data.isMatch === true) {
                 Swal.fire({
                     icon: "success",
                     title: "Presensi Berhasil",
