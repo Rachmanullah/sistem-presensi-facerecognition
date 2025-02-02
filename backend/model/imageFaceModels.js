@@ -23,6 +23,24 @@ const findImageFaceByMahasiswaID = async (mahasiswaID) => {
     }
 }
 
+const findEmbeddingFaceByMahasiswaID = async (mahasiswaID) => {
+    try {
+        const imageFace = await prisma.imageFace.findMany({
+            where: {
+                mahasiswa_id: mahasiswaID,
+            },
+            select: {
+                id: true,
+                embedding: true
+            }
+        });
+
+        return imageFace;
+    } catch (error) {
+        throw error;
+    }
+}
+
 const countImageFace = async () => {
     try {
         const count = await prisma.imageFace.count();
@@ -40,6 +58,7 @@ const createImageFace = async (data) => {
                 mahasiswa_id: data.mahasiswa_id,
                 image_url: data.image_url,
                 image_face: data.image_face,
+                embedding: data.embedding,
                 timestamp: new Date(),
             }
         });
@@ -84,4 +103,5 @@ module.exports = {
     createImageFace,
     deleteImageFaceByID,
     deleteImageFaceByMahasiswaID,
+    findEmbeddingFaceByMahasiswaID
 }

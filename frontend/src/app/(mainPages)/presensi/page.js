@@ -125,7 +125,7 @@ export default function PresensiPage() {
                 icon: "success",
                 title: "Presensi Berhasil",
                 text: response.data.message,
-                timer: 1500,
+                timer: 5000,
             });
         } catch (error) {
             console.error("Error extracting face embedding:", error);

@@ -10,10 +10,10 @@ export const ROUTES = {
     pesertaPraktikum: (id) => `/praktikum/${id}`,
     absensi: "/absensi",
     recordAbseni: (id) => `/absensi/${id}`,
-    faceRecognition: "/face-recognition",
+    faceRecognition: "/faceRecognition",
     login: "/login",
     logout: "/api/auth/logout",
     laporan: '/laporan',
-    imagesPages: (id) => `face-recognition/${id}`,
+    imagesPages: (id) => `faceRecognition/${id}`,
 }
 
