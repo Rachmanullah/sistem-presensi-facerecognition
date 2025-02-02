@@ -5,6 +5,9 @@ import Swal from "sweetalert2";
 import Image from "next/image";
 import axios from "axios";
 import * as faceapi from "face-api.js";
+import { CircularProgress } from "@/app/shared/components";
+import Link from "next/link";
+import { ROUTES } from "@/app/shared/routes/routes";
 
 export default function FaceRecognitionPage() {
     const videoRef = useRef(null);
@@ -304,6 +307,43 @@ export default function FaceRecognitionPage() {
                         Register Face
                     </button>
                 </div>
+                {/* Dataset */}
+                <h1 className="text-3xl font-extrabold text-gray-800 text-center mt-8 mb-6">Dataset</h1>
+                {isLoadingLoadData ? (
+                    <div className="flex justify-center items-center h-40">
+                        <CircularProgress size={60} color="primary" />
+                    </div>
+                ) : (
+                    <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                        {allSuggestions.map((item, index) => (
+                            <Link
+                                key={index}
+                                href={ROUTES.imagesPages(item.id)}
+                                className="group block p-6 bg-gradient-to-br from-blue-500 to-blue-600 border border-gray-300 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300"
+                            >
+                                <div className="flex items-center space-x-4">
+                                    <div className="w-12 h-12 bg-black rounded-lg flex justify-center items-center shadow">
+                                        <svg
+                                            className="w-8 h-8 text-white group-hover:text-yellow-300"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M3 6a2 2 0 0 1 2-2h5.532a2 2 0 0 1 1.536.72l1.9 2.28H3V6Zm0 3v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9H3Z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <h5 className="text-xl font-semibold tracking-tight text-white group-hover:text-yellow-300">
+                                        {item.nim}
+                                    </h5>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                )}
             </div>
             {/* Modal */}
             {isModalOpen && (
