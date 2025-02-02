@@ -10,6 +10,7 @@ const absensiRouter = require('./absensiRoute');
 const recordRouter = require('./recordRoute');
 const checkAbsensiStatus = require('./checkAbsensi');
 const faceRecognitionRouter = require('./faceRecognitionRoute');
+
 router.use('/user', userRouter);
 router.use('/tahunAkademik', thAkademikRouter);
 router.use('/mahasiswa', mahasiswaRouter);
