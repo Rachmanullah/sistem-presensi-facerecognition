@@ -62,3 +62,44 @@ exports.handleCountImagesFace = async (req, res) => {
         return responseHandler.error(res, error.message, 400);
     }
 }
+
+exports.handleGetImagesByMhsID = async (req, res) => {
+    try {
+        console.log(req.params.mhsID)
+        const mhsID = parseInt(req.params.mhsID);
+
+        const mhs = await mahasiswaService.findMhsByID(mhsID);
+
+        if (!mhs) {
+            return responseHandler.error("Mahasiswa tidak ditemukan.", 404);
+        }
+        const images = await faceRecognitionService.findImagesByMhsID(mhsID);
+
+        if (!images || images.length === 0) {
+            return responseHandler.error("Tidak ada gambar yang terkait dengan mahasiswa ini.", 404);
+        }
+
+        // Bangun URL untuk setiap gambar
+        const result = images.map((image) => {
+            // URL gambar menggunakan alamat http://localhost:2000
+            const imageUrl = `http://localhost:2000/public/imagesFace/${image.image_face}`;
+            return {
+                id: image.id,
+                mahasiswa_id: image.mahasiswa_id,
+                timestamp: image.timestamp,
+                imageUrl, // URL gambar lengkap
+            };
+        });
+
+        // Gabungkan data mahasiswa dengan gambar
+        const data = {
+            ...mhs,
+            images: result, // Tambahkan array gambar
+        };
+
+        return responseHandler.success(res, data, "berhasil mengambil data", 200);
+    } catch (error) {
+        console.error("Error:", error);
+        return responseHandler.error(res, error.message, 400);
+    }
+}

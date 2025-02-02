@@ -112,3 +112,13 @@ exports.CountImagesFace = async () => {
         throw new Error('Error fetching data: ' + error.message);
     }
 }
+
+exports.findImagesByMhsID = async (mhsID) => {
+    try {
+        const images = await imageFaceModels.findImageFaceByMahasiswaID(mhsID);
+
+        return images;
+    } catch (error) {
+        throw new Error('Error fetching data: ' + error.message);
+    }
+}
