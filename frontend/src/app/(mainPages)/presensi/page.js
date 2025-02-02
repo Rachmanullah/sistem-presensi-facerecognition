@@ -17,7 +17,6 @@ export default function PresensiPage() {
     const [selectedMeeting, setSelectedMeeting] = useState('');
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false);
-    const [currentEmbeddings, setCurrentEmbeddings] = useState(null);
 
     const handlePracticalChange = (event) => {
         const { name, value } = event.target;
@@ -108,7 +107,6 @@ export default function PresensiPage() {
 
             console.log("Wajah terdeteksi:", detections);
             const embedding = detections.descriptor;
-            setCurrentEmbeddings(embedding);
 
             const payload = {
                 nim: practical.nim,
@@ -121,12 +119,22 @@ export default function PresensiPage() {
             const response = await apiClient.post("/faceRecognition/predict", payload);
             console.log("Response backend:", response.data);
 
-            Swal.fire({
-                icon: "success",
-                title: "Presensi Berhasil",
-                text: response.data.message,
-                timer: 5000,
-            });
+            if (response.data.match === true) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Presensi Berhasil",
+                    text: response.data.message,
+                    timer: 5000,
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Presensi Gagal",
+                    text: response.data.message,
+                    timer: 5000,
+                });
+            }
+
         } catch (error) {
             console.error("Error extracting face embedding:", error);
             Swal.fire("Error", "Terjadi kesalahan saat ekstraksi wajah!", "error");
