@@ -21,7 +21,7 @@ const nextConfig = {
             {
                 protocol: 'http',
                 hostname: 'localhost', // Tambahkan ini
-                port: '5000', // Port tempat server berjalan
+                port: '2000', // Port tempat server berjalan
                 pathname: '/public/imagesFace/**', // Sesuaikan path-nya
             },
         ],
