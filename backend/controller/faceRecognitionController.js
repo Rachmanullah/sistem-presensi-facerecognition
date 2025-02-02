@@ -52,3 +52,13 @@ exports.handlePredictFace = async (req, res) => {
         return responseHandler.error(res, error.message, 400);
     }
 }
+
+exports.handleCountImagesFace = async (req, res) => {
+    try {
+        const result = await faceRecognitionService.CountImagesFace();
+        return responseHandler.success(res, result, "berhasil mengambil data", 200);
+    } catch (error) {
+        console.error("Error:", error);
+        return responseHandler.error(res, error.message, 400);
+    }
+}

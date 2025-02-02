@@ -102,3 +102,13 @@ exports.predictEmbedding = async (mhsID, targetEmbedding) => {
         throw error;
     }
 };
+
+exports.CountImagesFace = async () => {
+    try {
+        const count = await imageFaceModels.countImageFace();
+
+        return count;
+    } catch (error) {
+        throw new Error('Error fetching data: ' + error.message);
+    }
+}
