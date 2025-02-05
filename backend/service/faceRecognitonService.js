@@ -89,11 +89,9 @@ exports.predictEmbedding = async (mhsID, targetEmbedding) => {
         const closestMatch = distances[0];
 
         const isMatch = closestMatch.distance < 0.6;
-        const message = isMatch ? "Berhasil presensi" : "Presensi gagal, wajah tidak cocok";
 
         return {
             isMatch,
-            message,
             closestDistance: closestMatch.distance,
             matchedRecordID: isMatch ? closestMatch.id : null
         };

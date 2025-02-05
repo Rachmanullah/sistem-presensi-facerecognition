@@ -61,7 +61,7 @@ const updateRecordAbsensi = async (id, data) => {
     }
 }
 
-const recordAbsensi = async (absensiID, mahasiwaID, data) => {
+const recordAbsensi = async (absensiID, mahasiwaID, status) => {
     try {
         const record = await prisma.record_Absensi.findFirst({
             where: {
@@ -77,7 +77,7 @@ const recordAbsensi = async (absensiID, mahasiwaID, data) => {
         const result = await prisma.record_Absensi.update({
             where: { id: record.id },
             data: {
-                status: data.status,
+                status: status,
             },
         });
         return result;

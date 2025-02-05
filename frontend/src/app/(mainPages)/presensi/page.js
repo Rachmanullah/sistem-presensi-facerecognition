@@ -121,15 +121,30 @@ export default function PresensiPage() {
             const response = await apiClient.post("/faceRecognition/predict", payload);
             console.log("Response backend:", response.data);
 
+            if (response.data.code === 200) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Presensi Berhasil",
+                    text: response.data.message,
+                    timer: 5000,
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Presensi Gagal",
+                    text: response.data.message,
+                    timer: 5000,
+                });
+            }
+        } catch (error) {
+            console.log("Error extracting face embedding:", error);
             Swal.fire({
-                icon: "success",
-                title: "Presensi Berhasil",
-                text: response.data.message,
+                icon: "error",
+                title: "Presensi Gagal",
+                text: error.response.data.message,
                 timer: 5000,
             });
-        } catch (error) {
-            console.error("Error extracting face embedding:", error);
-            Swal.fire("Error", "Terjadi kesalahan saat ekstraksi wajah!", "error");
+
         } finally {
             setLoading(false);
         }
