@@ -1,4 +1,4 @@
-const { faceRecognitionService, mahasiswaService } = require("../service");
+const { faceRecognitionService, mahasiswaService, absensiService, recordAbsensiService } = require("../service");
 const responseHandler = require("../utils/responseHandler");
 
 exports.handleRegister = async (req, res) => {
@@ -31,9 +31,18 @@ exports.handleRegister = async (req, res) => {
 
 exports.handlePredictFace = async (req, res) => {
     try {
-        const { nim, embedding } = req.body;
-        if (!nim || !embedding) {
-            return responseHandler.error(res, "NIM dan Embedding wajib diisi", 400);
+        const { absensi_id, nim, embedding } = req.body;
+        if (!absensi_id || !nim || !embedding) {
+            return responseHandler.error(res, "Absensi ID, NIM dan Embedding wajib diisi", 400);
+        }
+        const absensi = await absensiService.findAbsensiByID(parseInt(absensi_id));
+
+        if (!absensi) {
+            return responseHandler.error(res, "Absensi ID yang dimasukkan tidak ditemukan", 400);
+        }
+
+        if (absensi.status !== "Dibuka") {
+            return responseHandler.error(res, "Absensi sudah ditutup dan tidak dapat presensi", 400);
         }
 
         const mahasiswa = await mahasiswaService.findMhsByNIM(parseInt(nim));
@@ -46,7 +55,37 @@ exports.handlePredictFace = async (req, res) => {
 
         const predictionResult = await faceRecognitionService.predictEmbedding(mahasiswa.id, embedding);
 
-        return responseHandler.success(res, predictionResult, predictionResult.message, 200);
+        let message = '';
+        let presensiStatus = 200;
+        let presensiError = null;
+
+        if (predictionResult.isMatch) {
+            try {
+                await recordAbsensiService.recordAbsensi(absensi_id, nim);
+                message = 'Presensi Berhasil';
+            } catch (error) {
+                message = 'Presensi Gagal';
+                presensiError = error.message;
+                presensiStatus = 400;
+            }
+        } else {
+            message = 'Presensi Gagal, wajah tidak cocok';
+            presensiError = 'Wajah tidak cocok';
+            presensiStatus = 400;
+        }
+
+        // return presensiStatus === 200 ? responseHandler.success(res, {
+        //     presensiStatus,
+        //     presensiError,
+        //     closestDistance: predictionResult.closestDistance,
+        //     matchedRecordID: predictionResult.matchedRecordID
+        // }, message, presensiStatus) : responseHandler.error(res, message, 400);
+        return responseHandler.success(res, {
+            presensiStatus,
+            presensiError,
+            closestDistance: predictionResult.closestDistance,
+            matchedRecordID: predictionResult.matchedRecordID
+        }, message, presensiStatus);
     } catch (error) {
         console.error("Error:", error);
         return responseHandler.error(res, error.message, 400);

@@ -62,10 +62,10 @@ const createRecordAbsensi = async (data) => {
     }
 }
 
-const recordAbsensi = async (absensiID, data) => {
+const recordAbsensi = async (absensiID, mhsNIM) => {
     try {
         const presensiID = parseInt(absensiID);
-        const nim = data.nim;
+        const nim = parseInt(mhsNIM);
 
         const checkAbsensi = await absensiModels.findAbsensiById(presensiID);
         const checkNIM = await mahasiswaModels.findMhsByNIM(nim);
@@ -91,7 +91,7 @@ const recordAbsensi = async (absensiID, data) => {
             throw new Error('Mahasiswa tidak terdaftar pada praktikum ini');
         }
 
-        return await recordAbsensiModels.recordAbsensi(presensiID, checkNIM.id, data);
+        return await recordAbsensiModels.recordAbsensi(presensiID, checkNIM.id, 'Hadir');
 
     } catch (error) {
         throw error;
