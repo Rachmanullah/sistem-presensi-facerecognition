@@ -26,7 +26,8 @@ export default function Navbar() {
 
     const handleLogout = async () => {
         try {
-            const response = await apiClient.get(`/auth/logout/${id}`);
+            console.log(user)
+            const response = await apiClient.get(`/auth/logout/${user?.id}`);
             if (response) {
                 Cookies.remove("user_session");
                 router.push(ROUTES.login);
