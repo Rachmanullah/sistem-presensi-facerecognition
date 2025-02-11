@@ -7,7 +7,7 @@ import { createSession } from '../lib/sessionService';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState({ username: 'Guest', role: 'Admin' });
+    const [user, setUser] = useState({ username: 'Guest', role: 'Unknown' });
 
     useEffect(() => {
         const token = document.cookie
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
                 const decoded = decodeJwt(token);
                 setUser({
                     username: decoded.username || 'Guest',
-                    role: decoded.role || 'Admin',
+                    role: decoded.role || 'Unknown',
                 });
             } catch (error) {
                 console.error('Failed to decode token:', error.message);
@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (userData) => {
         await createSession(userData);
         setUser({
+            id: userData.id,
             username: userData.username,
             role: userData.role,
         });
