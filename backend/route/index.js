@@ -10,6 +10,7 @@ const absensiRouter = require('./absensiRoute');
 const recordRouter = require('./recordRoute');
 const checkAbsensiStatus = require('./checkAbsensi');
 const faceRecognitionRouter = require('./faceRecognitionRoute');
+const authRouter = require('./authRoute');
 
 router.use('/user', userRouter);
 router.use('/tahunAkademik', thAkademikRouter);
@@ -20,5 +21,6 @@ router.use('/absensi', absensiRouter);
 router.use('/record', recordRouter);
 router.use('/checkAbsensi', checkAbsensiStatus);
 router.use('/faceRecognition', faceRecognitionRouter)
+router.use('/auth', authRouter)
 
 module.exports = router;

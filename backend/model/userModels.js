@@ -1,6 +1,6 @@
 const prisma = require("../lib/prismaClient");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+
 
 const findAllUser = async () => {
     try {
@@ -93,32 +93,21 @@ const authenticateUser = async (username, password) => {
             throw new Error("Invalid username or password");
         }
 
-        const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 jam
-        const tokenPayload = {
-            userId: user.id,
-            username: user.username,
-            role: user.role,
-            expiresAt,
-        };
+        return user;
+    } catch (error) {
+        throw error;
+    }
+}
 
-        const token = jwt.sign(
-            tokenPayload,
-            process.env.JWT_SECRET,
-            { algorithm: 'HS256' }
-        );
-
-        await prisma.user.update({
-            where: { id: user.id },
-            data: { token },
+const updateTokenUser = async (userID, token) => {
+    try {
+        const updatedToken = await prisma.user.update({
+            where: { id: userID },
+            data: {
+                token: token
+            },
         });
-
-        const dataAuth = {
-            ...user,
-            token
-        }
-
-        console.log('[Service] Token created and saved to database'); // Debug log
-        return dataAuth;
+        return updatedToken;
     } catch (error) {
         throw error;
     }
@@ -131,4 +120,5 @@ module.exports = {
     updateUser,
     destroyUser,
     authenticateUser,
+    updateTokenUser
 }
