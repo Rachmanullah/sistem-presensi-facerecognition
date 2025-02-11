@@ -1,4 +1,4 @@
-const { findAllUsers, findUserByID, updateUser, createUser, deleteUser, authenticateUser } = require("../service/userService");
+const { findAllUsers, findUserByID, updateUser, createUser, deleteUser, authenticateUser, updateToken, refreshToken } = require("../service/userService");
 const responseHandler = require("../utils/responseHandler");
 
 exports.HandlerGetAllUsers = async (req, res) => {
@@ -83,6 +83,52 @@ exports.HandlerAuthenticateUser = async (req, res) => {
         const data = req.body;
         const user = await authenticateUser(data);
         return responseHandler.success(res, user, 'Authentication successfully', 200);
+    } catch (error) {
+        if (error.name === 'ValidationError') {
+            const validationErrors = {};
+            Object.assign(validationErrors, error.inner.reduce((acc, err) => {
+                acc[err.path] = err.message;
+                return acc;
+            }, {}));
+            console.error('Validation Errors:', validationErrors);
+            return responseHandler.error(res, validationErrors, 400);
+        } else {
+            console.error('Unexpected Error:', error);
+            return responseHandler.error(res, 'Internal Server Error', 500);
+        }
+    }
+}
+
+exports.HandlerLogout = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id);
+        const checkData = await findUserByID(id);
+        if (!checkData) return responseHandler.error(res, 'Data Not Found', 404);
+        await updateToken(id);
+        return responseHandler.success(res, null, 'User deleted successfully', 200);
+    } catch (error) {
+        if (error.name === 'ValidationError') {
+            const validationErrors = {};
+            Object.assign(validationErrors, error.inner.reduce((acc, err) => {
+                acc[err.path] = err.message;
+                return acc;
+            }, {}));
+            console.error('Validation Errors:', validationErrors);
+            return responseHandler.error(res, validationErrors, 400);
+        } else {
+            console.error('Unexpected Error:', error);
+            return responseHandler.error(res, 'Internal Server Error', 500);
+        }
+    }
+}
+
+exports.HandlerLogout = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id);
+        const checkData = await findUserByID(id);
+        if (!checkData) return responseHandler.error(res, 'Data Not Found', 404);
+        await refreshToken(id);
+        return responseHandler.success(res, null, 'User deleted successfully', 200);
     } catch (error) {
         if (error.name === 'ValidationError') {
             const validationErrors = {};

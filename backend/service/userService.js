@@ -1,4 +1,5 @@
 const { userModels } = require('../model');
+const { updateTokenUser } = require('../model/userModels');
 const { userValidation } = require('../utils/validationHelper');
 const jwt = require("jsonwebtoken");
 
@@ -82,6 +83,14 @@ const authenticateUser = async (data) => {
         throw error;
     }
 }
+
+const refreshToken = async (userID) => {
+    try {
+        return await updateTokenUser(userID, '');
+    } catch (error) {
+        throw error;
+    }
+}
 module.exports = {
     findAllUsers,
     findUserByID,
@@ -89,4 +98,5 @@ module.exports = {
     updateUser,
     deleteUser,
     authenticateUser,
+    refreshToken
 }
