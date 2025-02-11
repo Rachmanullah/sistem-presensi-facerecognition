@@ -6,6 +6,7 @@ import apiClient from "@/app/lib/apiClient";
 import { useAuth } from "@/app/context/AuthContext";
 import { useState, useEffect } from 'react';
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 export default function Navbar() {
     const router = useRouter();
@@ -25,8 +26,11 @@ export default function Navbar() {
 
     const handleLogout = async () => {
         try {
-            const response = await apiClient.get('/auth/logout');
-            response.status && router.push(ROUTES.login);
+            const response = await apiClient.get(`/auth/logout/${id}`);
+            if (response) {
+                Cookies.remove("user_session");
+                router.push(ROUTES.login);
+            }
         } catch (error) {
             console.log(error);
         }
