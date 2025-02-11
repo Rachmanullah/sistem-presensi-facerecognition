@@ -7,7 +7,7 @@ import { createSession } from '../lib/sessionService';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState({ username: 'Guest', role: 'Unknown' });
+    const [user, setUser] = useState({ id: 0, username: 'Guest', role: 'Unknown' });
 
     useEffect(() => {
         const token = document.cookie
@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
             try {
                 const decoded = decodeJwt(token);
                 setUser({
+                    id: 0,
                     username: decoded.username || 'Guest',
                     role: decoded.role || 'Unknown',
                 });
