@@ -46,8 +46,7 @@ const deleteUser = async (userID) => {
     }
 }
 
-<<<<<<< HEAD
-=======
+
 const authenticateUser = async (data) => {
     try {
         const subsetValidation = userValidation.pick(['username', 'password']);
@@ -92,16 +91,12 @@ const refreshToken = async (userID) => {
         throw error;
     }
 }
->>>>>>> backend
 module.exports = {
     findAllUsers,
     findUserByID,
     createUser,
     updateUser,
     deleteUser,
-<<<<<<< HEAD
-=======
     authenticateUser,
-    refreshToken
->>>>>>> backend
+    refreshToken,
 }
