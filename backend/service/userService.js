@@ -1,6 +1,7 @@
 const { userModels } = require('../model');
 const { updateTokenUser } = require('../model/userModels');
 const { userValidation } = require('../utils/validationHelper');
+const jwt = require('jsonwebtoken');
 
 const findAllUsers = async () => {
     try {
